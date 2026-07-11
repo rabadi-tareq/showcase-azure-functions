@@ -1,0 +1,9 @@
+{
+  "profiles": {
+    "HttpTrigger_Push_To_Queue": {
+      "commandName": "Project",
+      "commandLineArgs": "--port 7010",
+      "launchBrowser": false
+    }
+  }
+}

@@ -1,0 +1,52 @@
+name: Deploy Azure Functions (main)
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  id-token: write
+  contents: read
+
+env:
+  TEMPLATE_FILE: infra/subscription-deploy.json
+  DEPLOYMENT_LOCATION: eastus
+  FUNCTIONAPP_PROJECT_PATH: showcase-azure-functions/HttpTrigger_Push_To_Queue/HttpTrigger_Push_To_Queue.csproj
+  PACKAGE_PATH: published_functionapp
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Azure login (OIDC)
+        uses: azure/login@v2
+        with:
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+
+      - name: Deploy subscription ARM template
+        id: infra
+        uses: azure/cli@v2
+        with:
+          inlineScript: az deployment sub create --name "funcapp-infra-${{ github.run_id }}" --location "$DEPLOYMENT_LOCATION" --template-file "$TEMPLATE_FILE" --query properties.outputs -o json > outputs.json; echo "function_app_name=$(jq -r '.functionAppName.value' outputs.json)" >> "$GITHUB_OUTPUT"; echo "resource_group_name=$(jq -r '.resourceGroupName.value' outputs.json)" >> "$GITHUB_OUTPUT"
+
+      - name: Setup .NET SDK
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 10.0.x
+
+      - name: Build and publish function app
+        run: dotnet publish "$FUNCTIONAPP_PROJECT_PATH" -c Release -o "$PACKAGE_PATH"
+
+      - name: Deploy function app package
+        uses: Azure/functions-action@v1
+        with:
+          app-name: ${{ steps.infra.outputs.function_app_name }}
+          package: ${{ env.PACKAGE_PATH }}
