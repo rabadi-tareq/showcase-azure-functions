@@ -13,7 +13,7 @@ permissions:
 env:
   TEMPLATE_FILE: infra/subscription-deploy.json
   DEPLOYMENT_LOCATION: eastus
-  showcase-azure-functions/ScratchPad/azure-doc-scenarios/HttpTrigger_Push_To_Queue/HttpTrigger_Push_To_Queue.csproj
+  FUNCTIONAPP_PROJECT_PATH: showcase-azure-functions/ScratchPad/azure-doc-scenarios/HttpTrigger_Push_To_Queue/HttpTrigger_Push_To_Queue.csproj
   PACKAGE_PATH: published_functionapp
 
 jobs:
