@@ -1,5 +1,3 @@
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Azure.Functions.Worker.Http;
 using Microsoft.Extensions.Logging;
@@ -44,4 +42,6 @@ public class PushToQueue
         [QueueOutput("test-items-queue", Connection = "AzureWebJobsStorage")]
         public string QueueMessage { get; set; }
     }
+
+    
 }

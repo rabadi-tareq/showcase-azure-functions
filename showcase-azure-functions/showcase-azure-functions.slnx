@@ -1,3 +1,7 @@
 <Solution>
-  <Project Path="HttpTrigger_Push_To_Queue/HttpTrigger_Push_To_Queue.csproj" />
+  <Folder Name="/ScratchPad/" />
+  <Folder Name="/ScratchPad/azure-doc-scenarios/">
+    <Project Path="ScratchPad/azure-doc-scenarios/Blob_trigger_through_event_sub/Blob_trigger_through_event_sub.csproj" Id="653cefea-4c53-42ca-a3c6-fb355a4a9134" />
+    <Project Path="ScratchPad/azure-doc-scenarios/HttpTrigger_Push_To_Queue/HttpTrigger_Push_To_Queue.csproj" />
+  </Folder>
 </Solution>

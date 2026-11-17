@@ -1,0 +1,9 @@
+{
+  "profiles": {
+    "Blob_trigger_through_event_sub": {
+      "commandName": "Project",
+      "commandLineArgs": "--port 7257",
+      "launchBrowser": false
+    }
+  }
+}
